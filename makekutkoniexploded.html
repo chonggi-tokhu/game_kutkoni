@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>굳건이 폭☆4시키기 게임</title>
+    <script src="https://code.jquery.com/jquery-3.6.3.js"></script>
+    <link rel="stylesheet" href="./files/css/style.css">
+    <style>
+        :root {
+            --displaywidth: 100px;
+            --fontunnit:0.90;
+        }
+        h1 {
+            --fontsize:2em;
+        }
+        h2 {
+            --fontsize:1.5em;
+        }
+        h3 {
+            --fontsize:1.17em;
+        }
+        h5 {
+            --fontsize:0.83em;
+        }
+        h6 {
+            --fontsize:0.67em;
+        }
+
+        #m1911pistolgr {
+            position: absolute;
+            top: calc(var(--displaywidth) * 4.40);
+            left: calc(var(--displaywidth) * 4.40);
+            clear: none;
+            float: left;
+        }
+
+        #m1911pistolgr .slide {
+            position: relative;
+            top: calc(var(--displaywidth) * 0.015);
+            left: calc(var(--displaywidth) * 0.10);
+            height: calc(var(--displaywidth) * 0.6);
+            width: calc(var(--displaywidth) * 2.35);
+            z-index: 10;
+            clear: none;
+            float: left;
+        }
+
+        #m1911pistolgr .frame {
+            position: relative;
+            top: calc(var(--displaywidth) * 0);
+            left: calc(var(--displaywidth) * -2.45);
+            width: calc(var(--displaywidth) * 3.0);
+            height: calc(var(--displaywidth) * 1.8);
+            z-index: 5;
+            clear: none;
+            float: left;
+        }
+
+        #m1911pistolgr .hammer {
+            position:relative;
+            top: calc(var(--displaywidth) * 0.1);
+            left: calc(var(--displaywidth) * -3.3);
+            height: calc(var(--displaywidth) * 0.45);
+            clear: none;
+            float: left;
+        }
+        #m1911pistolgr .shell {
+            position: relative;
+            width: calc(var(--displaywidth) * 0.50);
+            left: calc(var(--displaywidth) * 2.35);
+            top: calc(var(--displaywidth) * 0.2);
+            float: left;
+        }
+        #kutkoni {
+            position: absolute;
+            height: calc(var(--displaywidth) * 3.5);
+            top: calc(var(--displaywidth) * 2.8);
+            left: calc(var(--displaywidth)*0);
+        }
+
+        @media only screen and (max-width:1000px) {
+            :root {
+                --displaywidth: 75px;
+            }
+
+        }
+
+        @media only screen and (max-width: 750px) {
+            :root {
+                --displaywidth: 50px;
+
+            }
+        }
+
+        @media only screen and (max-width:500px) {
+            :root {
+                --displaywidth: 25px;
+            }
+        }
+        .gameover {
+            position: relative;
+            top: 80px;
+            font-weight: 900;
+            background: transparent;
+            text-align: center;
+            color: #ffa520;
+            font-size: 250%;
+            text-shadow: 2px 2px 1px #9ce,-1px -1px #9ce;
+        }
+        .gameovermodal {
+            z-index: 100;
+            position: relative;
+            background: #fff;
+            color: black;
+            height: 70%;
+            width: 80%;
+            top: 5%;
+            left: 10%;
+        }
+        .gameovermodalbg {
+            text-align: center;
+            z-index: 100;
+            top: 0px;
+            display: none;
+            position: fixed;
+            width: 96%;
+            left: 2%;
+            height: 105%;
+            background: rgba(160,120,160,0.5);
+        }
+        @keyframes loadinground {
+            0% {
+                left:calc(var(--displaywidth) * 0.20);
+            }
+            50%{
+                left:calc(var(--displaywidth) * 0.60);
+            }
+            100% {
+                left:calc(var(--displaywidth)*0.20);
+            }
+        }
+        @keyframes cartridge {
+            from{left:calc(var(--displaywidth) * 2.35);top: calc(var(--displaywidth)*-1.5);}
+            
+            50% {left:calc(var(--displaywidth) * 2.25);top: calc(var(--displaywidth)*-2.05);}
+            
+            to{left:calc(var(--displaywidth) * 1.95);top: calc(var(--displaywidth)*-2.25);opacity: 0;}
+        }
+        
+        .header.smallheader h1,h2,h3,h4,h5,h6{
+            font-size: calc(0.85*var(--fontsize) * var(--fontunnit));
+        }
+        
+        .header.smallsmallheader h1,h2,h3,h4,h5,h6{
+            font-size: calc(0.65*var(--fontsize) * var(--fontunnit));
+        }
+        .body .header_wrap {
+            height: fit-content;
+        }
+        .levelareaul {
+            position: fixed;
+            top: 0em;
+            border-radius: calc(var(--displaywidth)*0.06);
+            border: 1px solid olive;
+            margin-right: calc(var(--displaywidth)*0.1) !important;
+            height: 2em;
+            display: flex;
+            white-space: none;
+            font-size: calc(var(--fontunnit));
+        }
+        .levelareaul .li {
+            background: olive;
+            color: white;
+            list-style-type: none;
+            list-style: none;
+            height: 2em;
+            position: relative;
+            left: 0px;
+            padding-left: calc(var(--displaywidth)*0.005);
+            padding-right: calc(var(--displaywidth)*0.005);
+            
+            float: left;
+            display: inline;
+        }
+        .levelareaul .li:first-child{
+            float: inline-start;
+            position: relative;
+            border-top-left-radius: calc(var(--displaywidth)*0.06);
+            border-bottom-left-radius: calc(var(--displaywidth)*0.06);
+            margin-left: none !important;
+            padding-left: none !important;
+            margin-right: calc(var(--displaywidth) * 0.005);
+        }
+        .levelareaul .li:last-child{
+            margin-left: calc(var(--displaywidth) * 0.005);
+        }
+        .levelareaul .li:not(:first-child):not(:last-child){
+            margin-left: calc(var(--displaywidth) * 0.005);
+            margin-right: calc(var(--displaywidth) * 0.005);
+        }
+        .body {
+            margin-top: 0px;
+            padding-top: 1.5em;
+        }
+        @keyframes muzzleflare {
+            from{
+            opacity: 0;
+            background: radial-gradient(#ffff90,orangered,orange,red,#bef,#fff,#fff,transparent,transparent);
+            left: calc(var(--displaywidth) * -6.3);
+            top: calc(var(--displaywidth) * 0.08);}
+            80%{
+            opacity: 1;
+            left: calc(var(--displaywidth) * -6.8);
+            top: calc(var(--displaywidth) * -0.18);
+            background: radial-gradient(#ffff90,orangered,orange,red,#bef,#fff,#fff,transparent,transparent);width: calc(var(--displaywidth)*0.8);height: calc(var(--displaywidth)*0.4);}
+            to{
+            opacity: 0;
+            left: calc(var(--displaywidth) * -7.5);
+            top: calc(var(--displaywidth) * -0.18);
+            background: radial-gradient(#ffff90,orangered,orange,red,#bef,#fff,#fff,transparent,transparent);width: calc(var(--displaywidth)*0.4);height: calc(var(--displaywidth)*0.3)
+            }
+        }
+        #m1911pistolgr .gunflare {
+            float: left;
+            opacity: 1;
+            display: none;
+            position: relative;
+            left: calc(var(--displaywidth) * -6.3);
+            top: calc(var(--displaywidth) * 0.08);
+            width: calc(var(--displaywidth)*0.3);
+            height: calc(var(--displaywidth)*0.3);
+            background: radial-gradient(#ffff90,orangered,orange,red,#bef,#fff,#fff,transparent,transparent);
+        }
+    </style>
+</head>
+
+<body style="margin-top: 0px;">
+    <div class="body">
+        <div class="header_wrap">
+            <header class="smallsmallheader header">
+                <h1>군대가기 싫어서 짜증나는 사람들의(어차피 결국 군대는 가겠지만) 스트레스 해소용 게임입니다.</h1>
+                <h2>혹시 법적으로 귀찮게 될까봐 미리 알려드리는데, 이 페이지는 대한민국 병역법 81조의3을 위반하지 않습니다. '무슨 개솔이지' 생각이 들수도 있어서 말씀드립니다. 병역법에는 온라인상에서 병역면탈등의 꼼수를 허위로 알려주는것을 금지하고 있으며,처벌될수 있습니다. 병무청의 前 공식 마스코트인 굳건이를 놀림감으로 삼는다고 해서 그것이 <span style="font-size: 85%;font-weight: bold;color: #444;">'누구든지 「정보통신망 이용촉진 및 정보보호 등에 관한 법률」 제2조제1항제1호에 따른 정보통신망을
+                        통하여 제86조 및 제87조제1항에 해당하는 행위를 조장하는 정보를 게시ㆍ유통하여서는 아니 된다.'</span>를 위반하지는 않습니다. 굳건이 놀려먹기와 병역면탈 허위정보 통신상 유포는 아무 상관이 없습니다.</h2>
+                <h5 style="text-decoration: line-through;text-decoration-color: #888;color: #888;">1급해당 멀쩡한사람은 안뽑고 몸이 아픈사람이나 현역으로 보낼정도로 생각이 없는 병무청은 병신무뇌청의 줄임말이라 카더라</h5>
+            </header>
+        </div>
+        <div class="playarea">
+            <button id="startBtn" onclick="kutkonigame.start(function(p1){p1.kutkonimove();p1.objects.kutkoni.style.backgroundImage='none';p1.objects.kutkoni.src='./files/img/kutkoni1.png'});">게임 시작하기</button>
+            
+            <div class="play">
+                <div id="level" class="levelarea">
+                    <div class="levelareaul">
+                        <div class="li" style="left: 0px;position: relative;"> 현재 레벨:<span id="leveldiv"></span> </div>
+                        <div class="li">
+                                <span onclick="document.getElementById('leveldescdiv').style.display=(document.getElementById('leveldescdiv').style.display=='none')?'block':'none';" role="button" style="cursor: pointer;"> [펼치기/접기]현재 레벨 난이도 설명: </span>
+                                <span id="leveldescdiv" style="display: none;background: inherit;width: calc(var(--displaywidth)*1.45);position: relative;left: calc((var(--displaywidth)*0.55));letter-spacing: 0.1rem;"></span>
+                        </div>
+                        <div class="li">
+                            <span onclick="document.getElementsByClassName('howtoplay')[0].style.display=(document.getElementsByClassName('howtoplay')[0].style.display=='none')?'block':'none'">[펼치기/접기]게임 플레이 방법 및 규칙</span>
+                            <div class="howtoplay header small" style="display: none;background: inherit;position: relative;letter-spacing: 0.05rem;width: calc(var(--displaywidth)*1.8);">
+                                <h3>게임 방법 및 규칙</h3>
+                                <div class="howtoplay_body">
+                                    <p><span>게임 시작을 누르면 병무청의 前 마스코트인 굳건이가 위아래로 움직일겁니다.</span></p>
+                                    <p><span>저 자동권총(정확하겐 콜트 M1911A1. 45구경 ACP -0.45인치 콜트 자동권총탄- 를 사용하는 미국제 권총으로 한국군에서 주로 45구경이라고 부름)을 클릭하면(모바일에선
+                                            터치하면) 총이 발사됩니다.</span></p>
+                                    <p><span>굳건이가 총에 맞으면(버그때문에 반드시 가슴보다 위 턱 이상을 맞혀야 한다.) 굳건이는 폭☆4하게 되며,그 난이도가 끝나고 다음레벨에 들어가게 됩니다.</span></p>
+                                    <p><span>난이도는 7가지가 있습니다.</span></p>
+                                    <h3>주의: 정말 유치해보일수 있고, 어쩌면 유치해 '보이는' 게 아니라 유치한거 맞을수도 있다는거 저도 압니다. 그래도 <a
+                                            href="https://search.naver.com/search.naver?query=KIN+즐">KIN</a>겁게 플레이해주세요.</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="li">
+                            <span onclick="document.getElementById('startBtn').click();">지금 게임 시작</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="gameovermodalbg">
+                    <div class="gameovermodal">
+                        <button onclick="document.getElementsByClassName('gameovermodalbg')[0].style.display='none';" id="closemodal">&times; 닫기</button>
+                        <div class="" id="yongjang">
+                            
+                            
+                        </div>
+                        
+                    </div>
+                </div>
+                <img src="./files/img/kutkoni1.png" alt="굳건이야 조까라" id="kutkoni">
+                <img src="./files/img/m1911.png" alt="콜트 M1911 피스톨 출처 위키피디아" id="weapon_1_pistol"
+                    style="display: none;">
+                <div class="gun_group" id="m1911pistolgr" role="button" style="cursor: pointer;" onclick="this.focus();" tabindex="-1">
+                    <img src="./files/img/45탄피.png" alt="" class="shell">
+                    <img src="./files/img/m1911_slide.png" alt="" class="slide">
+                    <img src="./files/img/m1911_frame.png" alt="" class="frame">
+                    <img src="./files/img/m1911_hammer.png" alt="" class="hammer">
+                    <p class="gunflare"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var kutkonigame = {
+            willkutkonimove: false,
+            objects: {
+                kutkoni: document.getElementById("kutkoni"),
+                yongjang: document.getElementById("yongjang"),
+                weapon: document.getElementById("m1911pistolgr"),
+                weaponparts: {
+                    slide: document.getElementById("m1911pistolgr").getElementsByClassName("slide")[0],
+                    frame: document.getElementById("m1911pistolgr").getElementsByClassName("frame")[0],
+                    hammer: document.getElementById("m1911pistolgr").getElementsByClassName("hammer")[0],
+                },
+            },
+            start(callback){
+                if (this.willkutkonimove == false){
+                    this.willkutkonimove = true;
+                    document.getElementById("startBtn").innerHTML="게임 끝내기";
+                } else {
+                    this.willkutkonimove=false;
+                    
+                    document.getElementById("startBtn").innerHTML="플레이하기";
+                }
+                if (this.gameoverv == false) {
+                    this.gameoverv = true;
+                } else {
+                    this.gameoverv = false;
+                }
+                callback(this);
+            },
+            kutkonimovepr(to,speed) {
+                this.objects.kutkoni.style.top = (`calc(var(--displaywidth) * ${to.y * speed})`);
+            },
+            msgs:{
+                yongjang:`<p><span style="font-size: 200%;">군대갔다오셈</span><span>-굳건이-</span></p>`,
+                pok4:`<p><img src="./files/img/fuckedkutkoni.png" width="300" style="background:url('./files/img/pokpal.gif')"><br> <span style="font-size:250%;">굳건이 총맞고 폭☆4</span><br>(<b>병무청을 상징하는 굳건이가 총맞고 폭사했으니 이제 군대 안가셔도 됩니다</b>...라고 하면 전 병역법 81조에 걸려서 잡혀갑니다)</p>`,
+            },
+            kutkonimove2(from, plus) {
+                if (this.willkutkonimove == true) {
+                    if (from.x + plus.x < 0 || from.y + plus.y < 0) {
+                        if (from.x + plus.x < 0 && from.y + plus.y >= 0) {
+
+                            function myfunction(timestamp) { kutkonigame.kutkonimovepr({ x: 0, y: from.y + plus.y }) }
+                            requestAnimationFrame(myfunction);
+                        } else if (from.x + plus.x < 0 && from.y + plus.y < 0) {
+
+                            function myfunction(timestamp) {  kutkonigame.kutkonimovepr({ x: 0, y: 0 }) }
+                            requestAnimationFrame(myfunction);
+                        } if (from.x + plus.x >= 0 && from.y + plus.y < 0) {
+
+                            function myfunction(timestamp) {  kutkonigame.kutkonimovepr({ x: from.x + plus.x, y: 0 }) }
+                            requestAnimationFrame(myfunction);
+                        }
+                    } if (from.x + plus.x > window.innerWidth || from.y + plus.y > window.innerHeight) {
+                        if (from.x + plus.x > window.innerWidth && from.y + plus.y <= window.innerHeight) {
+
+                            function myfunction(timestamp) { kutkonigame.kutkonimovepr({ x: 0, y: from.y + plus.y }) };
+
+                            requestAnimationFrame(myfunction);
+                        } else if (from.x + plus.x > window.innerWidth && from.y + plus.y > window.innerHeight) {
+
+                            function myfunction(timestamp) {kutkonigame.kutkonimovepr({ x: 0, y: 0 }) };
+                            requestAnimationFrame(myfunction);
+                        } if (from.x + plus.x <= window.innerWidth && from.y + plus.y > window.innerHeight) {
+
+                            function myfunction(timestamp) {  kutkonigame.kutkonimovepr({ x: from.x + plus.x, y: 0 }) }
+                            requestAnimationFrame(myfunction);
+                        }
+                    } else {
+                        function myfunction(timestamp) {  kutkonigame.kutkonimovepr({ x: from.x + plus.x, y: from.x + plus.y }) };
+                        requestAnimationFrame(myfunction);
+                    }
+                    return true;
+                } else {
+                    return false;
+                }
+            },
+            panghyang:-1,
+            numbers:{
+                x:0,
+                y:0,
+            },
+            returnposnumber(timestamp,xy){
+                this.numbers.x+=this.panghyang;
+                this.numbers.y+=this.panghyang;
+                return { x: (xy.x + this.panghyang-20), y:(xy.y + this.panghyang-20) };
+            },
+            levels:{
+                0:{
+                    levelname:"레벨0",
+                    desc:`속도는 css스타일로 굳건이 위치가 바뀔때 원래 정해진 값의 10분의1만큼 바뀌는 속도로, 매우 느림. 이 난이도는 정말정말 쉽게 깰수 있다.`,
+                    speed: 1 / 10,
+                },
+                1:{
+                    levelname: "레벨1",
+                    desc: `속도는 css스타일로 굳건이 위치가 바뀔때 원래 정해진 값의 8분의1만큼 바뀌는 속도로, 느림. 이 난이도는 정말 쉽게 깰수 있다.`,
+                    speed: 1 / 8,
+                },
+                2:{
+                    levelname: "레벨2",
+                    desc: `속도는 css스타일로 굳건이 위치가 바뀔때 원래 정해진 값의 5분의1만큼 바뀌는 속도로,약간 느림.  이 난이도는 꽤 쉽게 깰수 있다.`,
+                    speed: 1 / 5,
+                },
+                3:{
+                    levelname: "레벨3",
+                    desc: `속도는 css스타일로 굳건이 위치가 바뀔때 원래 정해진 값의 4분의1만큼 바뀌는 속도로, 보통. 이 난이도는 대충 쉽게 깰수 있을것이다.`,
+                    speed:1 / 4,
+                },
+                4:{
+                    levelname: "레벨4",
+                    desc: `속도는 css스타일로 굳건이 위치가 바뀔때 원래 정해진 값의 2분의1만큼 바뀌는 속도로, 약간 빠름. 이 난이도는 그래도 깨는데 아무리 늦어도 2분이상의 노력이 필요하지 않을것이다..`,
+                    speed:1 / 2,
+                },
+                5:{
+                    levelname: "레벨5",
+                    desc: `속도는 css스타일로 굳건이 위치가 바뀔때 원래 정해진 값만큼 바뀌는 속도로, 빠름. 아주 어렵다. 이 난이도는 힘들게 깰수 있다.`,
+                    speed:1,
+                },
+                6:{
+                    levelname: "레벨 굳건이가 우사인볼트가 된 레벨",
+                    desc: `속도는 css스타일로 굳건이 위치가 바뀔때 원래 정해진 값의 2배만큼 바뀌는 속도로, 매우 빠름. 이 난이도까지 깨고 누구나 만렙을 달성할수 있다는건 보장 못하지만,우사인볼트의 속도를 체감할수 있다는건 믿을수 있게 보장한다.`,
+                    speed:2,
+                }
+            },
+            levelnow:0,
+            timeslll:0,
+            kutkonimove(from, plus) {
+                    function myfunction(timestamp){
+                        if (kutkonigame.willkutkonimove) {
+                            
+                        if (Math.floor(kutkonigame.timeslll) % 120 == 0) {
+                            kutkonigame.panghyang = 1;
+                        }
+                        if (Math.floor(kutkonigame.timeslll) % 120 == 60) {
+                            kutkonigame.panghyang = -1;
+                        }
+                        kutkonigame.kutkonimovepr(kutkonigame.returnposnumber(timestamp,{x:kutkonigame.numbers.x,y:kutkonigame.numbers.y}), kutkonigame.levels[kutkonigame.levelnow].speed);
+                            requestAnimationFrame(myfunction);
+                        }
+                        kutkonigame.timeslll+=1;
+                    }
+                    requestAnimationFrame(myfunction);
+                
+            },
+            rounds:7,
+            play() {
+                kutkonigame.kutkonimove({ x: this.objects.kutkoni.style.left.replace(/calc\(var\(--displaywidth\) \* (.*)\)/gi, Number((/$1/ + "").replace(`/`, ``).replace(`/`, ``))), y: this.objects.kutkoni.style.top.replace(/calc\(var\(--displaywidth\) \* (.*)\)/gi, Number((/$1/ + "").replace(`/`, ``).replace(`/`, ``))), }, { x: 5, y: 5 });
+            },
+            kutkonpok4(param1){
+                this.alimchang(this.msgs["pok4"] + param1);
+            },
+            alimchang(msg){
+                document.getElementsByClassName("gameovermodalbg")[0].style.display="block";
+                document.getElementById("yongjang").innerHTML = msg;
+            },
+            gameoverv:true,
+            firing(){
+                if (this.gameoverv == false){
+                        
+                        if (this.objects.weapon.offsetTop >= (this.objects.kutkoni.offsetTop) && (this.objects.kutkoni.offsetTop + (this.objects.kutkoni.offsetHeight)) >= (this.objects.weapon.offsetTop+(this.objects.weapon.offsetHeight))) {
+                            console.log(this.objects.kutkoni.offsetTop);
+                            kutkonigame.objects.kutkoni.src = `./files/img/fuckedkutkoni.png`
+                            kutkonigame.objects.kutkoni.style.backgroundImage = `url('./files/img/pokpal.gif')`;
+                            this.gameover(true);
+                            if (this.levelnow < 6)this.levelnow+=1;
+                            document.getElementById("leveldiv").innerHTML = kutkonigame.levels[kutkonigame.levelnow].levelname;
+                            document.getElementById("leveldescdiv").innerHTML = kutkonigame.levels[kutkonigame.levelnow].desc;
+                        } else {
+                            var next000 = (this.levelnow < 6) ? ` onclick="document.getElementById('startBtn').click();document.getElementById('closemodal').click()"` : ``;
+                            this.alimchang(this.msgs["yongjang"] + "잘못맞혔네? 입대야!!! 하하하"+ `<p class="gameover"><span>You lost...</span><br><span ${next000}>play again | your level:${this.levels[this.levelnow].levelname}</span></p>`);
+                            this.gameover(false);
+                        }
+                        document.getElementById("startBtn").innerHTML="게임 시작하기";
+
+                    }
+                
+                
+                
+            },
+            gameover(isitthatyouwon){
+                if (!isitthatyouwon){}
+                else {
+                    if(isitthatyouwon ==true){
+                        var gameovertext = (this.levelnow < 6)?"NEXT":"GAME OVER";
+                        var next000 = (this.levelnow<6)?` onclick="document.getElementById('startBtn').click();document.getElementById('closemodal').click()"`:``;
+                        this.kutkonpok4(`<p class="gameover"><span>You won!!! | your level:${this.levels[this.levelnow].levelname}</span><br><span ${next000}>${gameovertext}</span></p>`);
+                    } else {
+                    }
+                    
+                    document.getElementsByClassName("gameovermodalbg")[0].style.display = "block";
+                    
+                }
+                this.gameoverv=true;
+            },
+
+        }
+        $("closingmodal").click(function(e){
+            $("#yongjang").html("");
+        });
+        function selectanel(el){
+            
+            var selection = window.getSelection();
+            var range = document.createRange();
+            range.selectNodeContents(el);
+            selection.removeAllRanges();
+            selection.addRange(range);
+        }
+        document.getElementById("m1911pistolgr").onclick = function(e){
+            if (kutkonigame.rounds>0){
+                kutkonigame.rounds-=1;
+                kutkonigame.willkutkonimove = false;
+                window.setTimeout(function(){
+                    document.getElementById("m1911pistolgr").getElementsByClassName("gunflare")[0].style.animation = "muzzleflare 0.125s 1";
+                    document.getElementById("m1911pistolgr").getElementsByClassName("gunflare")[0].style.display="block";
+                    document.getElementById("m1911pistolgr").getElementsByClassName("slide")[0].style.animation = "loadinground 0.25s 1";
+                },25);
+                
+
+                window.setTimeout(function () {
+                    document.getElementById("m1911pistolgr").getElementsByClassName("gunflare")[0].style.animation = "";
+                    document.getElementById("m1911pistolgr").getElementsByClassName("gunflare")[0].style.display = "none";
+                    document.getElementById("m1911pistolgr").getElementsByClassName("shell")[0].style.animation = "cartridge 0.5s 1";
+                    
+                }, 125);
+
+
+                window.setTimeout(function () {
+                    document.getElementById("m1911pistolgr").getElementsByClassName("slide")[0].style.animation = "";
+                    document.getElementById("m1911pistolgr").getElementsByClassName("shell")[0].style.animation = "";
+                    kutkonigame.firing();
+                }, 625);
+                kutkonigame.objects.weapon.focus();
+                
+            } else {
+                kutkonigame.objects.weapon.blur();
+                var reloadingrounds = confirm("콜트 1911의 7발탄창 안에 든 총알을 다 썼습니다. 재장전하시겠습니까?");
+                if (reloadingrounds == true){
+                    kutkonigame.rounds = 7;
+                }
+                kutkonigame.objects.weapon.blur();
+            }
+            
+        }
+        window.addEventListener("resize",function(e){
+            document.querySelector(':root').style.setProperty("--displaywidth", window.innerWidth / 10 * 0.75 + "px");
+        });
+        window.addEventListener("load",function(e){
+            
+            document.querySelector(':root').style.setProperty("--displaywidth", window.innerWidth / 10 * 0.75 + "px");
+            document.getElementById("leveldiv").innerHTML=kutkonigame.levels[kutkonigame.levelnow].levelname;
+            document.getElementById("leveldescdiv").innerHTML=kutkonigame.levels[kutkonigame.levelnow].desc;
+        });
+        kutkonigame.objects.weapon.addEventListener("focus", function(e0){
+            document.activeElement.addEventListener("keyup", function (e) {
+                if (e.keyCode == 13 || e.keyCode == 32) {
+                    e.target.click();
+                }
+            });
+        })
+    </script>
+</body>
+
+</html>

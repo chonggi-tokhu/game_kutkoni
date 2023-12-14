@@ -148,7 +148,11 @@
             
             to{left:calc(var(--displaywidth) * 1.95);top: calc(var(--displaywidth)*-2.25);opacity: 0;}
         }
-        
+        @keyframes hammeranie {
+            from{transform: rotateX(0deg);}
+            50%{transform: rotateX(90deg);}
+            to{transform: rotateX(0deg);}
+        }
         .header.smallheader h1,h2,h3,h4,h5,h6{
             font-size: calc(0.85*var(--fontsize) * var(--fontunnit));
         }
@@ -514,6 +518,7 @@
                     document.getElementById("m1911pistolgr").getElementsByClassName("gunflare")[0].style.animation = "muzzleflare 0.125s 1";
                     document.getElementById("m1911pistolgr").getElementsByClassName("gunflare")[0].style.display="block";
                     document.getElementById("m1911pistolgr").getElementsByClassName("slide")[0].style.animation = "loadinground 0.25s 1";
+                    document.getElementById("m1911pistolgr").getElementsByClassName("hammer")[0].style.animation="hammeranie 0.25s 1";
                 },25);
                 
 
@@ -527,6 +532,8 @@
 
                 window.setTimeout(function () {
                     document.getElementById("m1911pistolgr").getElementsByClassName("slide")[0].style.animation = "";
+                    
+                    document.getElementById("m1911pistolgr").getElementsByClassName("hammer")[0].style.animation = "";
                     document.getElementById("m1911pistolgr").getElementsByClassName("shell")[0].style.animation = "";
                     kutkonigame.firing();
                 }, 625);

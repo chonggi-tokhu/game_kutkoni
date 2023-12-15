@@ -24,9 +24,6 @@ h6 {
 }
 
 #m1911pistolgr {
-    position: absolute;
-    top: calc(var(--displaywidth) * 3.00);
-    left: calc(var(--displaywidth) * 4.40);
     float: left;
 }
 
@@ -287,9 +284,6 @@ h6 {
 .body {
     margin-top: 0px;
     padding-top: 1.5em;
-}
-body {
-    background: #09a040;
 }
 @keyframes muzzleflash {
     from {

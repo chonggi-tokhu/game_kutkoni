@@ -92,25 +92,6 @@
             left: calc(var(--displaywidth)*0);
         }
 
-        @media only screen and (max-width:1000px) {
-            :root {
-                --displaywidth: 75px;
-            }
-
-        }
-
-        @media only screen and (max-width: 750px) {
-            :root {
-                --displaywidth: 50px;
-
-            }
-        }
-
-        @media only screen and (max-width:500px) {
-            :root {
-                --displaywidth: 25px;
-            }
-        }
         .gameover {
             position: relative;
             top: calc(var(--displaywidth)*0.8);
@@ -261,25 +242,26 @@
             background: radial-gradient(#ffff90,orangered,orange,red,#bef,#fff,#fff,transparent,transparent);
             left: calc(var(--displaywidth) * -0.10);}
             50%{
-            top: calc(var(--displaywidth) * -1.90);
+            top: calc(var(--displaywidth) * -1.55);
             }
             80%{
             opacity: 1;
-            top: calc(var(--displaywidth) * -1.90);
+            top: calc(var(--displaywidth) * -1.65);
             background: radial-gradient(#ffff90,orangered,orange,red,#bef,#fff,#fff,transparent,transparent);width: calc(var(--displaywidth)*0.8);height: calc(var(--displaywidth)*0.4);}
             to{
+            top:calc(var(--displaywidth)*-1.55);
             opacity: 0;
             left: calc(var(--displaywidth) * -0.10);
             background: radial-gradient(#ffff90,orangered,orange,red,#bef,#fff,#fff,transparent,transparent);width: calc(var(--displaywidth)*0.4);height: calc(var(--displaywidth)*0.3)
             }
         }
         #m1911pistolgr .gunflash {
+            position: relative;
             float: left;
             opacity: 1;
             display: none;
-            position: relative;
             left: calc(var(--displaywidth) * -0.10);
-            top: calc(var(--displaywidth) * -1.75);
+            top: calc(var(--displaywidth) * -1.85);
             width: calc(var(--displaywidth)*0.3);
             height: calc(var(--displaywidth)*0.3);
             background: radial-gradient(#ffff90,orangered,orange,red,#bef,#fff,#fff,transparent,transparent);
@@ -349,7 +331,7 @@
                     
                     <img src="./files/img/m1911_hammer.png" alt="" class="hammer">
                     <img src="./files/img/m1911_magazine_loaded.png" alt="" class="magazine">
-                    <p class="gunflash"></p>
+                    <span class="gunflash" style="border:none;"></span>
                 </div>
             </div>
         </div>

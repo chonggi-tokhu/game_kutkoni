@@ -289,11 +289,11 @@
                         <div class="li" style="left: 0px;position: relative;"> 현재 레벨:<span id="leveldiv"></span> </div>
                         <div class="li">
                                 <span onclick="document.getElementById('leveldescdiv').style.display=(document.getElementById('leveldescdiv').style.display=='none')?'block':'none';" role="button" style="cursor: pointer;"> [펼치기/접기]현재 레벨 난이도 설명: </span>
-                                <span id="leveldescdiv" style="display: none;background: inherit;width: calc(var(--displaywidth)*1.45);position: relative;left: calc((var(--displaywidth)*0.55));letter-spacing: 0.1rem;"></span>
+                                <span id="leveldescdiv" style="display: none;z-index:1000;background: inherit;width: calc(var(--displaywidth)*1.45);position: relative;left: calc((var(--displaywidth)*0.55));letter-spacing: 0.1rem;"></span>
                         </div>
                         <div class="li">
                             <span onclick="document.getElementsByClassName('howtoplay')[0].style.display=(document.getElementsByClassName('howtoplay')[0].style.display=='none')?'block':'none'">[펼치기/접기]게임 플레이 방법 및 규칙</span>
-                            <div class="howtoplay header small" style="display: none;background: inherit;position: relative;letter-spacing: 0.05rem;width: calc(var(--displaywidth)*1.8);">
+                            <div class="howtoplay header small" style="display: none;background: inherit;position: relative;letter-spacing: 0.05rem;width: calc(var(--displaywidth)*1.8);z-index:1000">
                                 <h3>게임 방법 및 규칙</h3>
                                 <div class="howtoplay_body">
                                     <p><span>게임 시작을 누르면 병무청의 前 마스코트인 굳건이가 위아래로 움직일겁니다.</span></p>
